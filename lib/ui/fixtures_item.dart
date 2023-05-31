@@ -1,58 +1,79 @@
+import 'package:cricjass/models/fixtures_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class FixtureItem extends StatefulWidget {
-  const FixtureItem({Key? key}) : super(key: key);
+  final List<FixturesData> fixtures;
+  const FixtureItem({Key? key, required this.fixtures}) : super(key: key);
 
   @override
   State<FixtureItem> createState() => _FixtureItemState();
 }
 
 class _FixtureItemState extends State<FixtureItem> {
+  // A function to format the date
+  String formatDate(String date) {
+    final DateTime dateTime = DateTime.parse(date);
+    final DateFormat formatter = DateFormat('dd/MM/yy HH:mm');
+    final String formatted = formatter.format(dateTime);
+    return formatted;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // print
     return ListView.builder(
-      itemCount: 100, // Replace with the actual number of items
+      itemCount:
+          widget.fixtures.length, // Replace with the actual number of items
       itemBuilder: (BuildContext context, int index) {
-        return const Center(
+        final fixture = widget.fixtures[index];
+        //print the fixture data
+        print(fixture);
+        return Center(
           child: Card(
             elevation: 8,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        children: [
-                          Text("24/04 04:00",
-                              style: TextStyle(
-                                fontSize: 16, // Adjust the font size as needed
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.italic,
-                                decoration: TextDecoration.underline,
-                                decorationColor: Colors
-                                    .red, // Replace with your desired decoration color
-                                decorationStyle: TextDecorationStyle.dashed,
-                              ))
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "5th T20I",
-                            style: TextStyle(
-                              fontSize: 16, // Adjust the font size as needed
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
-                              decoration: TextDecoration.underline,
-                              decorationColor: Colors
-                                  .red, // Replace with your desired decoration color
-                              decorationStyle: TextDecorationStyle.dashed,
-                            ),
-                          ),
-                        ],
+                      Text(
+                          fixture.status! == "NS"
+                              ? "Not Started"
+                              : fixture.status!,
+                          style: const TextStyle(
+                            fontSize: 12, // Adjust the font size as needed
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors
+                                .red, // Replace with your desired decoration color
+                            decorationStyle: TextDecorationStyle.dashed,
+                          )),
+                      Text(formatDate(fixture.startingAt!),
+                          style: const TextStyle(
+                            fontSize: 12, // Adjust the font size as needed
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors
+                                .red, // Replace with your desired decoration color
+                            decorationStyle: TextDecorationStyle.dashed,
+                          )),
+                      Text(
+                        fixture.round!,
+                        style: const TextStyle(
+                          fontSize: 12, // Adjust the font size as needed
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors
+                              .red, // Replace with your desired decoration color
+                          decorationStyle: TextDecorationStyle.dashed,
+                        ),
                       ),
                     ],
                   ),
@@ -61,62 +82,63 @@ class _FixtureItemState extends State<FixtureItem> {
                   padding: EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+                    children: [
                       Column(
                         children: [
                           Row(
                             children: [
-                              CircleAvatar(
-                                radius: 40, // Adjust the radius as needed
-                                backgroundImage: NetworkImage(
-                                    'https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg'), // Replace with your image URL
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text("Bangladesh",
-                                            style: TextStyle(
-                                              fontSize:
-                                                  16, // Adjust the font size as needed
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              decorationColor: Colors
-                                                  .red, // Replace with your desired decoration color
-                                              decorationStyle:
-                                                  TextDecorationStyle.dashed,
-                                            )),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("200/5 (20)",
-                                            style: TextStyle(
-                                              fontSize:
-                                                  16, // Adjust the font size as needed
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              decorationColor: Colors
-                                                  .red, // Replace with your desired decoration color
-                                              decorationStyle:
-                                                  TextDecorationStyle.dashed,
-                                            )),
-                                      ],
-                                    )
-                                  ],
+                              Image(
+                                height: 70,
+                                width: 70,
+                                image: NetworkImage(
+                                  fixture.localteam!.imagePath!,
                                 ),
-                              )
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        fixture.localteam!.name!,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.red,
+                                          decorationStyle:
+                                              TextDecorationStyle.dashed,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      if (fixture.runs != null &&
+                                          fixture.runs!.isNotEmpty &&
+                                          fixture.runs!.isNotEmpty)
+                                        Text(
+                                          "${fixture.runs![0].score}/${fixture.runs![0].wickets} (${fixture.runs![0].overs})",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle: FontStyle.italic,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            decorationColor: Colors.red,
+                                            decorationStyle:
+                                                TextDecorationStyle.dashed,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ],
-                          )
+                          ),
                         ],
                       ),
-                      Column(
+                      const Column(
                         children: [Icon(Icons.swap_horizontal_circle)],
                       ),
                       Column(
@@ -129,50 +151,55 @@ class _FixtureItemState extends State<FixtureItem> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text("India",
-                                            style: TextStyle(
-                                              fontSize:
-                                                  16, // Adjust the font size as needed
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              decorationColor: Colors
-                                                  .red, // Replace with your desired decoration color
-                                              decorationStyle:
-                                                  TextDecorationStyle.dashed,
-                                            )),
+                                        Text(
+                                          fixture.visitorteam!.name!,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle: FontStyle.italic,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            decorationColor: Colors.red,
+                                            decorationStyle:
+                                                TextDecorationStyle.dashed,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                        Text("194/10 (20)",
-                                            style: TextStyle(
-                                              fontSize:
-                                                  16, // Adjust the font size as needed
+                                        if (fixture.runs != null &&
+                                            fixture.runs!.isNotEmpty &&
+                                            fixture.runs!.length >= 2)
+                                          Text(
+                                            "${fixture.runs![1].score}/${fixture.runs![1].wickets} (${fixture.runs![1].overs})",
+                                            style: const TextStyle(
+                                              fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic,
                                               decoration:
                                                   TextDecoration.underline,
-                                              decorationColor: Colors
-                                                  .red, // Replace with your desired decoration color
+                                              decorationColor: Colors.red,
                                               decorationStyle:
                                                   TextDecorationStyle.dashed,
-                                            )),
+                                            ),
+                                          ),
                                       ],
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
-                              CircleAvatar(
-                                radius: 40, // Adjust the radius as needed
-                                backgroundImage: NetworkImage(
-                                    'https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg'), // Replace with your image URL
+                              Image(
+                                height: 70,
+                                width: 70,
+                                image: NetworkImage(
+                                  fixture.localteam!.imagePath!,
+                                ),
                               ),
                             ],
-                          )
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
