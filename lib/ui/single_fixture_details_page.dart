@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../models/fixtures_entity.dart';
 import '../utils.dart';
+import 'fixture_details_page_tab_layout.dart.dart';
+import 'fixture_player_list_tab_layout.dart';
 
 class SingleFixtureDetailsPage extends StatefulWidget {
   final FixturesData fixture;
@@ -14,7 +16,24 @@ class SingleFixtureDetailsPage extends StatefulWidget {
       _SingleFixtureDetailsPageState();
 }
 
-class _SingleFixtureDetailsPageState extends State<SingleFixtureDetailsPage> {
+class _SingleFixtureDetailsPageState extends State<SingleFixtureDetailsPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+        length: 2,
+        vsync: this); // Change the length to the number of tabs you want
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,10 +120,10 @@ class _SingleFixtureDetailsPageState extends State<SingleFixtureDetailsPage> {
                                             fontWeight: FontWeight.bold,
                                             fontStyle: FontStyle.italic,
                                             decoration:
-                                            TextDecoration.underline,
+                                                TextDecoration.underline,
                                             decorationColor: Colors.red,
                                             decorationStyle:
-                                            TextDecorationStyle.dashed,
+                                                TextDecorationStyle.dashed,
                                           ),
                                         ),
                                       ],
@@ -115,19 +134,16 @@ class _SingleFixtureDetailsPageState extends State<SingleFixtureDetailsPage> {
                                             widget.fixture.runs!.isNotEmpty &&
                                             widget.fixture.runs!.isNotEmpty)
                                           Text(
-                                            "${widget.fixture.runs![0]
-                                                .score}/${widget.fixture
-                                                .runs![0].wickets} (${widget
-                                                .fixture.runs![0].overs})",
+                                            "${widget.fixture.runs![0].score}/${widget.fixture.runs![0].wickets} (${widget.fixture.runs![0].overs})",
                                             style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic,
                                               decoration:
-                                              TextDecoration.underline,
+                                                  TextDecoration.underline,
                                               decorationColor: Colors.red,
                                               decorationStyle:
-                                              TextDecorationStyle.dashed,
+                                                  TextDecorationStyle.dashed,
                                             ),
                                           ),
                                       ],
@@ -158,10 +174,10 @@ class _SingleFixtureDetailsPageState extends State<SingleFixtureDetailsPage> {
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic,
                                               decoration:
-                                              TextDecoration.underline,
+                                                  TextDecoration.underline,
                                               decorationColor: Colors.red,
                                               decorationStyle:
-                                              TextDecorationStyle.dashed,
+                                                  TextDecorationStyle.dashed,
                                             ),
                                           ),
                                         ],
@@ -172,19 +188,16 @@ class _SingleFixtureDetailsPageState extends State<SingleFixtureDetailsPage> {
                                               widget.fixture.runs!.isNotEmpty &&
                                               widget.fixture.runs!.length >= 2)
                                             Text(
-                                              "${widget.fixture.runs![1]
-                                                  .score}/${widget.fixture
-                                                  .runs![1].wickets} (${widget
-                                                  .fixture.runs![1].overs})",
+                                              "${widget.fixture.runs![1].score}/${widget.fixture.runs![1].wickets} (${widget.fixture.runs![1].overs})",
                                               style: const TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                                 fontStyle: FontStyle.italic,
                                                 decoration:
-                                                TextDecoration.underline,
+                                                    TextDecoration.underline,
                                                 decorationColor: Colors.red,
                                                 decorationStyle:
-                                                TextDecorationStyle.dashed,
+                                                    TextDecorationStyle.dashed,
                                               ),
                                             ),
                                         ],
@@ -209,8 +222,33 @@ class _SingleFixtureDetailsPageState extends State<SingleFixtureDetailsPage> {
                 ],
               ),
             ),
-
-
+            // container with tab layout for match details and commentary and also with scoreboards
+            TabBar(
+              controller: _tabController,
+              tabs: const [
+                Tab(text: 'Match Details'),
+                Tab(text: 'Palyers'),
+                Tab(text: 'Commentary'),
+                // Add more tabs as needed
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  // Match Details Tab Content
+                  FixtureDetailsPagesTabView(
+                    fixture: widget.fixture,
+                  ),
+                  FixturePlayerListPagesTabView(
+                    fixture: widget.fixture,
+                  ),
+                  FixturePlayerListPagesTabView(
+                    fixture: widget.fixture,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
