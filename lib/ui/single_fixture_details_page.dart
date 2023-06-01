@@ -1,48 +1,32 @@
-import 'package:cricjass/models/fixtures_entity.dart';
-import 'package:cricjass/ui/single_fixture_details_page.dart';
-import 'package:cricjass/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
-class FixtureItem extends StatefulWidget {
-  final List<FixturesData> fixtures;
+import '../models/fixtures_entity.dart';
+import '../utils.dart';
 
-  const FixtureItem({Key? key, required this.fixtures}) : super(key: key);
+class SingleFixtureDetailsPage extends StatefulWidget {
+  final FixturesData fixture;
+
+  const SingleFixtureDetailsPage({Key? key, required this.fixture})
+      : super(key: key);
 
   @override
-  State<FixtureItem> createState() => _FixtureItemState();
+  State<SingleFixtureDetailsPage> createState() =>
+      _SingleFixtureDetailsPageState();
 }
 
-class _FixtureItemState extends State<FixtureItem> {
+class _SingleFixtureDetailsPageState extends State<SingleFixtureDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    // print
-    return ListView.builder(
-      itemCount:
-          widget.fixtures.length, // Replace with the actual number of items
-      itemBuilder: (BuildContext context, int index) {
-        final fixture = widget.fixtures[index];
-        //print the fixture data
-        print(fixture);
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      SingleFixtureDetailsPage(fixture: fixture)),
-            );
-            Fluttertoast.showToast(
-                msg: "Fixture Id: ${fixture.id}",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1);
-          },
-          child: Center(
-            child: Card(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.fixture.round!),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Card(
               elevation: 8,
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -50,9 +34,9 @@ class _FixtureItemState extends State<FixtureItem> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                            fixture.status! == "NS"
+                            widget.fixture.status! == "NS"
                                 ? "Not Started"
-                                : fixture.status!,
+                                : widget.fixture.status!,
                             style: const TextStyle(
                               fontSize: 12,
                               // Adjust the font size as needed
@@ -63,7 +47,7 @@ class _FixtureItemState extends State<FixtureItem> {
                               // Replace with your desired decoration color
                               decorationStyle: TextDecorationStyle.dashed,
                             )),
-                        Text(Utils().formatDate(fixture.startingAt!),
+                        Text(Utils().formatDate(widget.fixture.startingAt!),
                             style: const TextStyle(
                               fontSize: 12,
                               // Adjust the font size as needed
@@ -75,7 +59,7 @@ class _FixtureItemState extends State<FixtureItem> {
                               decorationStyle: TextDecorationStyle.dashed,
                             )),
                         Text(
-                          fixture.round!,
+                          widget.fixture.round!,
                           style: const TextStyle(
                             fontSize: 12,
                             // Adjust the font size as needed
@@ -103,7 +87,7 @@ class _FixtureItemState extends State<FixtureItem> {
                                   height: 70,
                                   width: 70,
                                   image: NetworkImage(
-                                    fixture.localteam!.imagePath!,
+                                    widget.fixture.localteam!.imagePath!,
                                   ),
                                 ),
                                 Column(
@@ -111,36 +95,39 @@ class _FixtureItemState extends State<FixtureItem> {
                                     Row(
                                       children: [
                                         Text(
-                                          fixture.localteam!.name!,
+                                          widget.fixture.localteam!.name!,
                                           style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                             fontStyle: FontStyle.italic,
                                             decoration:
-                                                TextDecoration.underline,
+                                            TextDecoration.underline,
                                             decorationColor: Colors.red,
                                             decorationStyle:
-                                                TextDecorationStyle.dashed,
+                                            TextDecorationStyle.dashed,
                                           ),
                                         ),
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                        if (fixture.runs != null &&
-                                            fixture.runs!.isNotEmpty &&
-                                            fixture.runs!.isNotEmpty)
+                                        if (widget.fixture.runs != null &&
+                                            widget.fixture.runs!.isNotEmpty &&
+                                            widget.fixture.runs!.isNotEmpty)
                                           Text(
-                                            "${fixture.runs![0].score}/${fixture.runs![0].wickets} (${fixture.runs![0].overs})",
+                                            "${widget.fixture.runs![0]
+                                                .score}/${widget.fixture
+                                                .runs![0].wickets} (${widget
+                                                .fixture.runs![0].overs})",
                                             style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic,
                                               decoration:
-                                                  TextDecoration.underline,
+                                              TextDecoration.underline,
                                               decorationColor: Colors.red,
                                               decorationStyle:
-                                                  TextDecorationStyle.dashed,
+                                              TextDecorationStyle.dashed,
                                             ),
                                           ),
                                       ],
@@ -165,36 +152,39 @@ class _FixtureItemState extends State<FixtureItem> {
                                       Row(
                                         children: [
                                           Text(
-                                            fixture.visitorteam!.name!,
+                                            widget.fixture.visitorteam!.name!,
                                             style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic,
                                               decoration:
-                                                  TextDecoration.underline,
+                                              TextDecoration.underline,
                                               decorationColor: Colors.red,
                                               decorationStyle:
-                                                  TextDecorationStyle.dashed,
+                                              TextDecorationStyle.dashed,
                                             ),
                                           ),
                                         ],
                                       ),
                                       Row(
                                         children: [
-                                          if (fixture.runs != null &&
-                                              fixture.runs!.isNotEmpty &&
-                                              fixture.runs!.length >= 2)
+                                          if (widget.fixture.runs != null &&
+                                              widget.fixture.runs!.isNotEmpty &&
+                                              widget.fixture.runs!.length >= 2)
                                             Text(
-                                              "${fixture.runs![1].score}/${fixture.runs![1].wickets} (${fixture.runs![1].overs})",
+                                              "${widget.fixture.runs![1]
+                                                  .score}/${widget.fixture
+                                                  .runs![1].wickets} (${widget
+                                                  .fixture.runs![1].overs})",
                                               style: const TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                                 fontStyle: FontStyle.italic,
                                                 decoration:
-                                                    TextDecoration.underline,
+                                                TextDecoration.underline,
                                                 decorationColor: Colors.red,
                                                 decorationStyle:
-                                                    TextDecorationStyle.dashed,
+                                                TextDecorationStyle.dashed,
                                               ),
                                             ),
                                         ],
@@ -206,7 +196,7 @@ class _FixtureItemState extends State<FixtureItem> {
                                   height: 70,
                                   width: 70,
                                   image: NetworkImage(
-                                    fixture.visitorteam!.imagePath!,
+                                    widget.fixture.visitorteam!.imagePath!,
                                   ),
                                 ),
                               ],
@@ -219,9 +209,11 @@ class _FixtureItemState extends State<FixtureItem> {
                 ],
               ),
             ),
-          ),
-        );
-      },
+
+
+          ],
+        ),
+      ),
     );
   }
 }
