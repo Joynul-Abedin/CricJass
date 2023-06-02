@@ -1,4 +1,5 @@
 import 'package:cricjass/models/fixtures_entity.dart';
+import 'package:cricjass/ui/palyer_details_page.dart';
 import 'package:flutter/material.dart';
 
 class FixturePlayerListPagesTabView extends StatefulWidget {
@@ -6,6 +7,7 @@ class FixturePlayerListPagesTabView extends StatefulWidget {
 
   const FixturePlayerListPagesTabView({Key? key, required this.fixture})
       : super(key: key);
+
   @override
   FixturePlayerListPagesTabViewState createState() =>
       FixturePlayerListPagesTabViewState();
@@ -40,145 +42,166 @@ class FixturePlayerListPagesTabViewState
         .toList();
 
     return Scaffold(
-      body: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.fixture.localteam!.name!,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+      body: Container(
+        width: double.maxFinite,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          widget.fixture.localteam!.name!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: localTeamLineUp.length,
-                    itemBuilder: (context, index) {
-                      final lineUp = localTeamLineUp[index];
-                      return Card(
-                        elevation: 8,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: localTeamLineUp.length,
+                      itemBuilder: (context, index) {
+                        final lineUp = localTeamLineUp[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PlayerDetailsWidget(
+                                  player: lineUp,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            elevation: 8,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
                                 children: [
-                                  Image(
-                                    height: 50,
-                                    width: 50,
-                                    image: NetworkImage(
-                                      lineUp.imagePath!,
-                                    ),
-                                  ),
-                                  Text(
-                                    lineUp.fullname!,
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic,
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: Colors.red,
-                                      decorationStyle:
-                                          TextDecorationStyle.dashed,
-                                    ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Image(
+                                        height: 50,
+                                        width: 50,
+                                        image: NetworkImage(
+                                          lineUp.imagePath!,
+                                        ),
+                                      ),
+                                      Text(
+                                        lineUp.fullname!,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.red,
+                                          decorationStyle:
+                                              TextDecorationStyle.dashed,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(10),
+                        );
+                      },
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.fixture.visitorteam!.name!,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          widget.fixture.visitorteam!.name!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: visitorTeamLineUp.length,
-                    itemBuilder: (context, index) {
-                      final lineUp = visitorTeamLineUp[index];
-                      return Card(
-                        elevation: 8,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image(
-                                    height: 50,
-                                    width: 50,
-                                    image: NetworkImage(
-                                      lineUp.imagePath!,
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: visitorTeamLineUp.length,
+                      itemBuilder: (context, index) {
+                        final lineUp = visitorTeamLineUp[index];
+                        return Card(
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Image(
+                                      height: 50,
+                                      width: 50,
+                                      image: NetworkImage(
+                                        lineUp.imagePath!,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    lineUp.fullname!,
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic,
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: Colors.red,
-                                      decorationStyle:
-                                          TextDecorationStyle.dashed,
+                                    Text(
+                                      lineUp.fullname!,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: Colors.red,
+                                        decorationStyle:
+                                            TextDecorationStyle.dashed,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

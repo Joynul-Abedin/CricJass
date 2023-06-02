@@ -229,22 +229,32 @@ class _FixturesListTabState extends State<FixturesListTab> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<FixturesData>>(
-      future: fetchFixtures(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          // Data is available, display it in your widget
-          final fixtures = snapshot.data!;
-          // TODO: Build your widget using the fixtures data
-          return FixtureItem(fixtures: fixtures);
-        } else if (snapshot.hasError) {
-          // Error occurred, handle it appropriately
-          final error = snapshot.error.toString();
-          return Text('Error: $error');
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: FutureBuilder<List<FixturesData>>(
+        future: fetchFixtures(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            // Data is available, display it in your widget
+            final fixtures = snapshot.data!;
+            // TODO: Build your widget using the fixtures data
+            return FixtureItem(fixtures: fixtures);
+          } else if (snapshot.hasError) {
+            // Error occurred, handle it appropriately
+            final error = snapshot.error.toString();
+            return Text('Error: $error');
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
   }
 }

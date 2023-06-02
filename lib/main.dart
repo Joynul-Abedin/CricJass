@@ -15,6 +15,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.orange,
+        primaryColor: const Color.fromARGB(255, 164, 133, 199),
+        // Set your gradient color here
+        primaryColorBrightness: Brightness
+            .dark, // Ensure text is readable on the gradient background
       ),
       home: const HomePage(),
     );
