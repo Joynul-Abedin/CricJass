@@ -1132,12 +1132,12 @@ FixturesDataManofmatch $FixturesDataManofmatchFromJson(
   final dynamic battingstyle =
       jsonConvert.convert<dynamic>(json['battingstyle']);
   if (battingstyle != null) {
-    fixturesDataManofmatch.battingStyle = battingstyle;
+    fixturesDataManofmatch.battingstyle = battingstyle;
   }
   final dynamic bowlingstyle =
       jsonConvert.convert<dynamic>(json['bowlingstyle']);
   if (bowlingstyle != null) {
-    fixturesDataManofmatch.bowlingStyle = bowlingstyle;
+    fixturesDataManofmatch.bowlingstyle = bowlingstyle;
   }
   final FixturesDataManofmatchPosition? position =
       jsonConvert.convert<FixturesDataManofmatchPosition>(json['position']);
@@ -1163,8 +1163,8 @@ Map<String, dynamic> $FixturesDataManofmatchToJson(
   data['image_path'] = entity.imagePath;
   data['dateofbirth'] = entity.dateofbirth;
   data['gender'] = entity.gender;
-  data['battingstyle'] = entity.battingStyle;
-  data['bowlingstyle'] = entity.bowlingStyle;
+  data['battingstyle'] = entity.battingstyle;
+  data['bowlingstyle'] = entity.bowlingstyle;
   data['position'] = entity.position?.toJson();
   data['updated_at'] = entity.updatedAt;
   return data;
@@ -1241,12 +1241,12 @@ FixturesDataManofseries $FixturesDataManofseriesFromJson(
   final String? battingstyle =
       jsonConvert.convert<String>(json['battingstyle']);
   if (battingstyle != null) {
-    fixturesDataManofseries.battingStyle = battingstyle;
+    fixturesDataManofseries.battingstyle = battingstyle;
   }
   final String? bowlingstyle =
       jsonConvert.convert<String>(json['bowlingstyle']);
   if (bowlingstyle != null) {
-    fixturesDataManofseries.bowlingStyle = bowlingstyle;
+    fixturesDataManofseries.bowlingstyle = bowlingstyle;
   }
   final FixturesDataManofseriesPosition? position =
       jsonConvert.convert<FixturesDataManofseriesPosition>(json['position']);
@@ -1272,8 +1272,8 @@ Map<String, dynamic> $FixturesDataManofseriesToJson(
   data['image_path'] = entity.imagePath;
   data['dateofbirth'] = entity.dateofbirth;
   data['gender'] = entity.gender;
-  data['battingstyle'] = entity.battingStyle;
-  data['bowlingstyle'] = entity.bowlingStyle;
+  data['battingstyle'] = entity.battingstyle;
+  data['bowlingstyle'] = entity.bowlingstyle;
   data['position'] = entity.position?.toJson();
   data['updated_at'] = entity.updatedAt;
   return data;

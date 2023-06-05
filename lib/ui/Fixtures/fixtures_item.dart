@@ -1,6 +1,6 @@
 import 'package:cricjass/Utils/utils.dart';
 import 'package:cricjass/models/fixtures_entity.dart';
-import 'package:cricjass/ui/single_fixture_details_page.dart';
+import 'package:cricjass/ui/Fixtures/single_fixture_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

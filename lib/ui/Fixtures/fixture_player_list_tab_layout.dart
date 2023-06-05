@@ -1,5 +1,5 @@
 import 'package:cricjass/models/fixtures_entity.dart';
-import 'package:cricjass/ui/palyer_details_page.dart';
+import 'package:cricjass/ui/Players/palyer_details_page.dart';
 import 'package:flutter/material.dart';
 
 class FixturePlayerListPagesTabView extends StatefulWidget {
@@ -159,38 +159,50 @@ class FixturePlayerListPagesTabViewState
                       itemCount: visitorTeamLineUp.length,
                       itemBuilder: (context, index) {
                         final lineUp = visitorTeamLineUp[index];
-                        return Card(
-                          elevation: 8,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Image(
-                                      height: 50,
-                                      width: 50,
-                                      image: NetworkImage(
-                                        lineUp.imagePath!,
-                                      ),
-                                    ),
-                                    Text(
-                                      lineUp.fullname!,
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FontStyle.italic,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: Colors.red,
-                                        decorationStyle:
-                                            TextDecorationStyle.dashed,
-                                      ),
-                                    ),
-                                  ],
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PlayerDetailsWidget(
+                                  player: lineUp,
                                 ),
-                              ],
+                              ),
+                            );
+                          },
+                          child: Card(
+                            elevation: 8,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Image(
+                                        height: 50,
+                                        width: 50,
+                                        image: NetworkImage(
+                                          lineUp.imagePath!,
+                                        ),
+                                      ),
+                                      Text(
+                                        lineUp.fullname!,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Colors.red,
+                                          decorationStyle:
+                                              TextDecorationStyle.dashed,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );

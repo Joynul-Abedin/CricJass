@@ -504,10 +504,8 @@ class FixturesDataManofmatch {
   String? imagePath;
   String? dateofbirth;
   String? gender;
-  @JSONField(name: "battingstyle")
-  dynamic battingStyle;
-  @JSONField(name: "bowlingstyle")
-  dynamic bowlingStyle;
+  dynamic battingstyle;
+  dynamic bowlingstyle;
   FixturesDataManofmatchPosition? position;
   @JSONField(name: "updated_at")
   String? updatedAt;
@@ -557,11 +555,8 @@ class FixturesDataManofseries {
   String? imagePath;
   String? dateofbirth;
   String? gender;
-  @JSONField(name: "battingstyle")
-  String? battingStyle;
-
-  @JSONField(name: "bowlingstyle")
-  String? bowlingStyle;
+  String? battingstyle;
+  String? bowlingstyle;
   FixturesDataManofseriesPosition? position;
   @JSONField(name: "updated_at")
   String? updatedAt;

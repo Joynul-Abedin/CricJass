@@ -1,101 +1,80 @@
-import 'package:cricjass/models/fixtures_entity.dart';
+import 'package:cricjass/ui/Competitions/competition_page.dart';
+import 'package:cricjass/ui/Players/players_page.dart';
 import 'package:flutter/material.dart';
 
-class FixtureScoreBoardPagesTabView extends StatefulWidget {
-  final FixturesData fixture;
+import '../Fixtures/fixtures_page.dart';
 
-  const FixtureScoreBoardPagesTabView({Key? key, required this.fixture})
-      : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  FixtureScoreBoardPagesTabViewState createState() =>
-      FixtureScoreBoardPagesTabViewState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class FixtureScoreBoardPagesTabViewState
-    extends State<FixtureScoreBoardPagesTabView> {
+class _HomePageState extends State<HomePage> {
+  int _currentPageIndex = 0;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _currentPageIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _currentPageIndex = index;
+    });
+  }
+
+  void _onBottomNavItemTapped(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final localTeamBattingLineUp = widget.fixture.batting!
-        .where((element) => element.teamId == widget.fixture.localteamId)
-        .toList();
-    final localTeamBowlingLineUp = widget.fixture.bowling!
-        .where((element) => element.teamId == widget.fixture.localteamId)
-        .toList();
-    final visitorTeamBattingLineUp = widget.fixture.batting!
-        .where((element) => element.teamId == widget.fixture.visitorteamId)
-        .toList();
-    final visitorTeamBowlingLineUp = widget.fixture.bowling!
-        .where((element) => element.teamId == widget.fixture.visitorteamId)
-        .toList();
-
     return Scaffold(
-      body: Container(
-        width: double.maxFinite,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.jpg"),
-            fit: BoxFit.cover,
+      appBar: AppBar(
+        // App bar configuration
+        title: const Text('CricJass'),
+        elevation: 10.0,
+      ),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        children: const [
+          FixturesPage(),
+          CompetitionPage(),
+          PlayersPage(),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentPageIndex,
+        onTap: _onBottomNavItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          widget.fixture.localteam!.name!,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: localTeamBattingLineUp.length,
-                      itemBuilder: (context, index) {
-                        final player = widget.fixture.lineup
-                            ?.where((element) =>
-                                element.id ==
-                                localTeamBattingLineUp[index].playerId)
-                            .first;
-                        final playerScore = localTeamBattingLineUp[index];
-                        return ListTile(
-                          title: Text(
-                            player!.fullname!,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Text(
-                            "Runs: ${playerScore.score} Balls: ${playerScore.ball} Fours: ${playerScore.fourX} Sixes: ${playerScore.sixX}",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.graphic_eq),
+            label: 'Competitions',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Players',
+          ),
+        ],
       ),
     );
   }

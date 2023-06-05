@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../Utils/utils.dart';
-import '../models/fixtures_entity.dart';
+import '../../Utils/utils.dart';
+import '../../models/fixtures_entity.dart';
 import 'fixture_details_page_tab_layout.dart.dart';
 import 'fixture_player_list_tab_layout.dart';
 import 'fixture_scoreboard_page_tab_layout.dart.dart';
